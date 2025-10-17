@@ -205,7 +205,7 @@ Please:
 
 1. **Clone the repository:**
 ```bash
-git clone https://github.com/yourusername/prompt-engineering-portfolio.git
+git clone https://github.com/pedroraeli/prompt-engineering-portfolio.git
 cd prompt-engineering-portfolio
 ```
 
