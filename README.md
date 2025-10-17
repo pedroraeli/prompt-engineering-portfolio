@@ -276,3 +276,13 @@ prompt-engineering-portfolio/
 Pedro Raeli  
 pedrosuethraeli@gmail.com  
 https://www.linkedin.com/in/pedroraeli/
+
+## 🤝 Let's Connect
+
+I'm actively seeking prompt engineering opportunities. If you're impressed by this portfolio, let's talk about how I can help your team leverage AI effectively.
+
+**Available for:**
+- Prompt Engineering roles
+- AI Implementation consulting
+- Training & workshops
+- Contract projects
