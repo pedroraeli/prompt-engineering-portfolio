@@ -12,7 +12,7 @@ This project showcases advanced prompt engineering skills through:
 
 ## 🚀 Live Demo
 
-[View Interactive Demo](https://YOUR-pedroraeli.github.io/prompt-engineering-portfolio)
+[View Interactive Demo](https://pedroraeli.github.io/prompt-engineering-portfolio)
 
 ## 📋 Table of Contents
 
