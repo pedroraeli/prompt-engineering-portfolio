@@ -2,7 +2,7 @@
    ![Techniques](https://img.shields.io/badge/Techniques-6-green?style=for-the-badge)
    ![Case Studies](https://img.shields.io/badge/Case%20Studies-1-orange?style=for-the-badge)
    
-   **[🚀 View Live Interactive Demo](https://YOUR-USERNAME.github.io/prompt-engineering-portfolio)**
+   **[🚀 View Live Interactive Demo](https://pedroraeli.github.io/prompt-engineering-portfolio)**
 
 # Advanced Prompt Engineering Toolkit
 
