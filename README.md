@@ -1,3 +1,9 @@
+![GitHub Pages](https://img.shields.io/badge/Live%20Demo-Click%20Here-blue?style=for-the-badge)
+   ![Techniques](https://img.shields.io/badge/Techniques-6-green?style=for-the-badge)
+   ![Case Studies](https://img.shields.io/badge/Case%20Studies-1-orange?style=for-the-badge)
+   
+   **[🚀 View Live Interactive Demo](https://YOUR-USERNAME.github.io/prompt-engineering-portfolio)**
+
 # Advanced Prompt Engineering Toolkit
 
 A comprehensive demonstration of prompt engineering principles, techniques, and real-world applications.
