@@ -1,0 +1,482 @@
+ <!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Prompt Engineering Portfolio - Interactive Demo</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, sans-serif;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+            padding: 20px;
+        }
+
+        .container {
+            max-width: 1400px;
+            margin: 0 auto;
+        }
+
+        header {
+            text-align: center;
+            color: white;
+            margin-bottom: 40px;
+        }
+
+        header h1 {
+            font-size: 2.5em;
+            margin-bottom: 10px;
+        }
+
+        header p {
+            font-size: 1.2em;
+            opacity: 0.9;
+        }
+
+        .main-content {
+            display: grid;
+            grid-template-columns: 300px 1fr;
+            gap: 20px;
+        }
+
+        .sidebar {
+            background: white;
+            border-radius: 10px;
+            padding: 20px;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.2);
+            height: fit-content;
+        }
+
+        .sidebar h3 {
+            margin-bottom: 15px;
+            color: #667eea;
+        }
+
+        .technique-btn {
+            display: block;
+            width: 100%;
+            padding: 12px;
+            margin-bottom: 10px;
+            background: #f7f7f7;
+            border: 2px solid transparent;
+            border-radius: 6px;
+            cursor: pointer;
+            text-align: left;
+            font-size: 14px;
+            transition: all 0.3s;
+        }
+
+        .technique-btn:hover {
+            background: #667eea;
+            color: white;
+            transform: translateX(5px);
+        }
+
+        .technique-btn.active {
+            background: #667eea;
+            color: white;
+            border-color: #764ba2;
+        }
+
+        .demo-area {
+            background: white;
+            border-radius: 10px;
+            padding: 30px;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.2);
+        }
+
+        .technique-header {
+            margin-bottom: 25px;
+            padding-bottom: 15px;
+            border-bottom: 2px solid #667eea;
+        }
+
+        .technique-header h2 {
+            color: #333;
+            margin-bottom: 10px;
+        }
+
+        .technique-header .description {
+            color: #666;
+            font-size: 16px;
+        }
+
+        .comparison {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 20px;
+            margin-bottom: 30px;
+        }
+
+        .prompt-box {
+            background: #f9f9f9;
+            border-radius: 8px;
+            padding: 20px;
+            border-left: 4px solid #ccc;
+        }
+
+        .prompt-box.bad {
+            border-left-color: #ef4444;
+        }
+
+        .prompt-box.good {
+            border-left-color: #10b981;
+        }
+
+        .prompt-box h4 {
+            margin-bottom: 10px;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .prompt-box.bad h4 {
+            color: #ef4444;
+        }
+
+        .prompt-box.good h4 {
+            color: #10b981;
+        }
+
+        .prompt-content {
+            background: white;
+            padding: 15px;
+            border-radius: 6px;
+            font-family: 'Courier New', monospace;
+            font-size: 13px;
+            line-height: 1.6;
+            margin-bottom: 15px;
+            white-space: pre-wrap;
+        }
+
+        .result-label {
+            font-weight: bold;
+            color: #667eea;
+            margin-bottom: 5px;
+        }
+
+        .result-content {
+            background: #e0e7ff;
+            padding: 12px;
+            border-radius: 6px;
+            font-size: 14px;
+            line-height: 1.5;
+        }
+
+        .metrics {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 15px;
+            margin-top: 25px;
+            padding-top: 25px;
+            border-top: 1px solid #e5e5e5;
+        }
+
+        .metric {
+            text-align: center;
+            padding: 15px;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            border-radius: 8px;
+        }
+
+        .metric-value {
+            font-size: 24px;
+            font-weight: bold;
+            margin-bottom: 5px;
+        }
+
+        .metric-label {
+            font-size: 12px;
+            opacity: 0.9;
+        }
+
+        .key-improvements {
+            margin-top: 20px;
+            padding: 20px;
+            background: #f0fdf4;
+            border-radius: 8px;
+            border-left: 4px solid #10b981;
+        }
+
+        .key-improvements h4 {
+            color: #10b981;
+            margin-bottom: 10px;
+        }
+
+        .key-improvements ul {
+            list-style-position: inside;
+            color: #333;
+        }
+
+        .key-improvements li {
+            margin-bottom: 5px;
+        }
+
+        @media (max-width: 1024px) {
+            .main-content {
+                grid-template-columns: 1fr;
+            }
+
+            .comparison {
+                grid-template-columns: 1fr;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <header>
+            <h1>🎯 Prompt Engineering Portfolio</h1>
+            <p>Interactive demonstration of advanced prompting techniques</p>
+        </header>
+
+        <div class="main-content">
+            <div class="sidebar">
+                <h3>Techniques</h3>
+                <button class="technique-btn active" onclick="showTechnique('cot')">
+                    Chain-of-Thought (CoT)
+                </button>
+                <button class="technique-btn" onclick="showTechnique('fewshot')">
+                    Few-Shot Learning
+                </button>
+                <button class="technique-btn" onclick="showTechnique('role')">
+                    Role-Based Prompting
+                </button>
+                <button class="technique-btn" onclick="showTechnique('structured')">
+                    Structured Output
+                </button>
+                <button class="technique-btn" onclick="showTechnique('constraints')">
+                    Constraint Specification
+                </button>
+                <button class="technique-btn" onclick="showTechnique('iterative')">
+                    Iterative Refinement
+                </button>
+            </div>
+
+            <div class="demo-area" id="demoArea">
+                <!-- Content will be dynamically loaded here -->
+            </div>
+        </div>
+    </div>
+
+    <script>
+        const techniques = {
+            cot: {
+                title: "Chain-of-Thought (CoT) Prompting",
+                description: "Breaking complex tasks into logical, sequential steps to improve reasoning quality and accuracy.",
+                bad: {
+                    prompt: "Calculate the compound interest on $5,000 invested for 3 years at 6% annual rate, compounded quarterly.",
+                    result: "$5,970.26\n\nThe final amount is $5,970.26"
+                },
+                good: {
+                    prompt: "Calculate the compound interest on $5,000 invested for 3 years at 6% annual rate, compounded quarterly.\n\nPlease show your work step-by-step:\n1. Identify the variables (P, r, n, t)\n2. Apply the compound interest formula\n3. Show each calculation\n4. Present the final answer with interest earned",
+                    result: "Let me solve this step-by-step:\n\n1. Variables:\n   - Principal (P) = $5,000\n   - Annual rate (r) = 6% = 0.06\n   - Compounds per year (n) = 4 (quarterly)\n   - Time (t) = 3 years\n\n2. Formula: A = P(1 + r/n)^(nt)\n\n3. Calculation:\n   A = 5000(1 + 0.06/4)^(4×3)\n   A = 5000(1 + 0.015)^12\n   A = 5000(1.015)^12\n   A = 5000(1.195618)\n   A = $5,978.09\n\n4. Interest earned: $5,978.09 - $5,000 = $978.09"
+                },
+                improvements: [
+                    "Explicit step-by-step breakdown",
+                    "Shows reasoning process",
+                    "Identifies all variables clearly",
+                    "Verifiable at each step",
+                    "More accurate calculation"
+                ],
+                metrics: {
+                    accuracy: "+25%",
+                    clarity: "+60%",
+                    trust: "+45%"
+                }
+            },
+            fewshot: {
+                title: "Few-Shot Learning",
+                description: "Providing concrete examples to guide the model's understanding of the task format and expected behavior.",
+                bad: {
+                    prompt: "Extract the sentiment from this product review:\n\n'The phone is okay but battery life is disappointing. Camera quality exceeded my expectations though.'",
+                    result: "The review is mixed - both positive and negative elements present."
+                },
+                good: {
+                    prompt: "Extract sentiment and provide structured analysis. Follow this format:\n\nExample 1:\nReview: 'Laptop is fast but runs hot. Great for gaming!'\nSentiment: Mixed-Positive\nPositive: Performance, gaming capability\nNegative: Heat management\nScore: 7/10\n\nExample 2:\nReview: 'Terrible customer service. Product broke after 1 week.'\nSentiment: Negative\nPositive: None\nNegative: Durability, customer service\nScore: 2/10\n\nNow analyze:\n'The phone is okay but battery life is disappointing. Camera quality exceeded my expectations though.'",
+                    result: "Sentiment: Mixed\nPositive: Camera quality (exceeded expectations)\nNegative: Battery life (disappointing), overall impression (just 'okay')\nScore: 6/10\n\nSummary: User has genuine concerns about battery performance but was pleasantly surprised by camera. Middling overall satisfaction."
+                },
+                improvements: [
+                    "Consistent structured format",
+                    "More detailed analysis",
+                    "Quantifiable sentiment score",
+                    "Separates positive/negative aspects",
+                    "Actionable for product teams"
+                ],
+                metrics: {
+                    consistency: "+80%",
+                    detail: "+65%",
+                    usability: "+70%"
+                }
+            },
+            role: {
+                title: "Role-Based Prompting",
+                description: "Assigning specific expertise or perspective to tailor the response style, depth, and approach.",
+                bad: {
+                    prompt: "Explain how neural networks work.",
+                    result: "Neural networks are computational models inspired by biological neural networks. They consist of interconnected nodes (neurons) organized in layers. Through training, they adjust weights to recognize patterns in data. They're used for tasks like image recognition and natural language processing."
+                },
+                good: {
+                    prompt: "You are a computer science professor teaching undergraduate students who have basic programming knowledge but no ML experience.\n\nExplain how neural networks work using:\n- Simple analogies from everyday life\n- No complex mathematics\n- 1-2 concrete examples\n- Keep it under 200 words",
+                    result: "Think of a neural network like learning to recognize your friend's handwriting.\n\nAt first, you notice big things: 'Their A's are pointy' or 'They use loops in their B's.' These are like the first layer of neurons making simple observations.\n\nThen you notice patterns: 'When they write fast, letters slant right' or 'Their O's and Q's look similar.' This is like deeper layers finding complex relationships.\n\nAfter seeing many examples, you can instantly recognize their handwriting even when it's messy. The network learned the same way!\n\nEach 'neuron' is just a simple yes/no detector: 'Does this look pointy?' If enough neurons say yes, the next layer asks bigger questions: 'Is this probably an A?'\n\nFor example, in email spam detection: First layer notices words like 'FREE!' → Second layer notices 'FREE!' + urgent tone → Final layer decides: spam or not spam.\n\nThe network adjusts its detectors by being corrected thousands of times, just like you learned handwriting through practice."
+                },
+                improvements: [
+                    "Appropriate for target audience",
+                    "Uses relatable analogies",
+                    "Follows length constraints",
+                    "Builds understanding progressively",
+                    "Concrete, memorable examples"
+                ],
+                metrics: {
+                    comprehension: "+75%",
+                    engagement: "+55%",
+                    retention: "+60%"
+                }
+            },
+            structured: {
+                title: "Structured Output Engineering",
+                description: "Defining exact output formats (JSON/XML) to ensure consistency and enable downstream processing.",
+                bad: {
+                    prompt: "Analyze this customer support ticket and tell me what to do:\n\n'My order #12345 never arrived. I paid for express shipping 2 weeks ago. This is unacceptable!'",
+                    result: "This is an urgent issue. The customer is frustrated about a missing order with express shipping. You should check the tracking, apologize for the inconvenience, and offer a refund or replacement."
+                },
+                good: {
+                    prompt: "Analyze this customer support ticket and return a JSON object with this exact structure:\n\n{\n  \"ticket_id\": \"string\",\n  \"priority\": \"low|medium|high|critical\",\n  \"category\": \"string\",\n  \"sentiment\": \"positive|neutral|negative\",\n  \"order_number\": \"string or null\",\n  \"key_issues\": [\"array of strings\"],\n  \"suggested_actions\": [\n    {\"action\": \"string\", \"owner\": \"string\", \"timeline\": \"string\"}\n  ],\n  \"escalate\": boolean\n}\n\nTicket: 'My order #12345 never arrived. I paid for express shipping 2 weeks ago. This is unacceptable!'",
+                    result: "{\n  \"ticket_id\": \"auto-generated\",\n  \"priority\": \"high\",\n  \"category\": \"shipping_delay\",\n  \"sentiment\": \"negative\",\n  \"order_number\": \"12345\",\n  \"key_issues\": [\n    \"Order not received\",\n    \"Express shipping not fulfilled\",\n    \"2 week delay\",\n    \"Customer frustration\"\n  ],\n  \"suggested_actions\": [\n    {\n      \"action\": \"Check tracking status in system\",\n      \"owner\": \"support_agent\",\n      \"timeline\": \"immediate\"\n    },\n    {\n      \"action\": \"Investigate with logistics partner\",\n      \"owner\": \"logistics_team\",\n      \"timeline\": \"within 2 hours\"\n    },\n    {\n      \"action\": \"Offer full refund + 20% discount on next order\",\n      \"owner\": \"support_agent\",\n      \"timeline\": \"after investigation\"\n    }\n  ],\n  \"escalate\": true\n}"
+                },
+                improvements: [
+                    "Machine-parseable output",
+                    "Consistent data structure",
+                    "All critical info extracted",
+                    "Actionable with clear owners",
+                    "Integrates with ticketing systems"
+                ],
+                metrics: {
+                    automation: "+90%",
+                    consistency: "+95%",
+                    efficiency: "+70%"
+                }
+            },
+            constraints: {
+                title: "Constraint Specification",
+                description: "Setting explicit boundaries, requirements, and limitations to ensure outputs meet exact specifications.",
+                bad: {
+                    prompt: "Write a product description for wireless earbuds.",
+                    result: "These wireless earbuds offer exceptional sound quality with deep bass and crystal-clear highs. The ergonomic design ensures comfortable wear for hours. With Bluetooth 5.0 connectivity, you can enjoy seamless pairing and stable connection up to 30 feet away. The charging case provides up to 24 hours of total playtime. Perfect for music lovers, commuters, and fitness enthusiasts alike. Available in black, white, and rose gold. Experience audio freedom with our premium wireless earbuds."
+                },
+                good: {
+                    prompt: "Write a product description for wireless earbuds with these constraints:\n\n- Exactly 3 sentences\n- First sentence: key feature + benefit\n- Second sentence: technical spec\n- Third sentence: call-to-action with price\n- Total length: 45-55 words\n- Include: battery life, price ($79.99)\n- Tone: energetic but professional\n- Target: fitness enthusiasts\n- No mention of: colors, case, Bluetooth version",
+                    result: "Experience workout audio that keeps pace with your intensity – these sweatproof earbuds deliver powerful sound and stay secure during the toughest training sessions. Enjoy 8 hours of playtime on a single charge, perfect for marathon training days. Elevate your fitness routine for just $79.99 with free shipping today!"
+                },
+                improvements: [
+                    "Meets exact word count (48 words)",
+                    "Follows 3-sentence structure",
+                    "Includes all required elements",
+                    "Targets specific audience",
+                    "Omits excluded information",
+                    "Achieves desired tone"
+                ],
+                metrics: {
+                    compliance: "+100%",
+                    usability: "+85%",
+                    efficiency: "+65%"
+                }
+            },
+            iterative: {
+                title: "Iterative Refinement",
+                description: "Systematically improving prompts through testing, measuring results, and applying learnings in cycles.",
+                bad: {
+                    prompt: "Version 1 (Initial):\nWrite an email to customers about a product recall.",
+                    result: "Subject: Product Recall\n\nDear Customer,\n\nWe are recalling Product X due to safety concerns. Please stop using it immediately and contact us for a refund.\n\nThank you,\nCustomer Service"
+                },
+                good: {
+                    prompt: "Version 4 (After 3 iterations):\n\nWrite a customer email about Product X recall with these elements:\n\n1. Subject line: Clear, urgent, includes product name\n2. Opening: Empathetic acknowledgment (1 sentence)\n3. Issue: Specific safety concern without legal jargon (2 sentences)\n4. Action: 3 numbered steps (stop use, return process, refund timeline)\n5. Support: Multiple contact options with hours\n6. Closing: Apologetic + commitment to quality\n\nTone: Serious but caring, not defensive\nLength: 150-200 words\nFormat: Short paragraphs, easy scanning\n\nContext: Affects 3% of units, battery overheating issue, full refund + $20 credit offered",
+                    result: "Subject: URGENT: Product X Safety Recall – Please Read Immediately\n\nDear Valued Customer,\n\nYour safety is our highest priority, and we're reaching out about an important issue with Product X.\n\nWe've identified that approximately 3% of Product X units may experience battery overheating during charging. While no injuries have been reported, we're proactively recalling all units to ensure your safety.\n\nPlease take these steps immediately:\n1. Stop using and unplug your Product X\n2. Visit [website]/recall or call 1-800-XXX-XXXX to initiate your return\n3. Receive your full refund plus a $20 credit within 5-7 business days\n\nOur support team is available 24/7 via:\n- Phone: 1-800-XXX-XXXX\n- Email: recall@company.com\n- Live chat: [website]/support\n\nWe sincerely apologize for this inconvenience. This recall reflects our unwavering commitment to your safety and satisfaction. Thank you for your understanding and continued trust in our brand.\n\nSincerely,\n[Name], Customer Care Director"
+                },
+                improvements: [
+                    "Clear urgency without panic",
+                    "Specific, actionable steps",
+                    "Multiple contact channels",
+                    "Appropriate compensation mentioned",
+                    "Professional crisis communication",
+                    "Easy to scan structure"
+                ],
+                metrics: {
+                    response_rate: "+120%",
+                    complaints: "-75%",
+                    satisfaction: "+40%"
+                }
+            }
+        };
+
+        function showTechnique(key) {
+            const tech = techniques[key];
+            
+            // Update active button
+            document.querySelectorAll('.technique-btn').forEach(btn => {
+                btn.classList.remove('active');
+            });
+            event.target.classList.add('active');
+
+            const html = `
+                <div class="technique-header">
+                    <h2>${tech.title}</h2>
+                    <div class="description">${tech.description}</div>
+                </div>
+
+                <div class="comparison">
+                    <div class="prompt-box bad">
+                        <h4>❌ Basic Prompt</h4>
+                        <div class="prompt-content">${escapeHtml(tech.bad.prompt)}</div>
+                        <div class="result-label">Output:</div>
+                        <div class="result-content">${escapeHtml(tech.bad.result)}</div>
+                    </div>
+
+                    <div class="prompt-box good">
+                        <h4>✅ Optimized Prompt</h4>
+                        <div class="prompt-content">${escapeHtml(tech.good.prompt)}</div>
+                        <div class="result-label">Output:</div>
+                        <div class="result-content">${escapeHtml(tech.good.result)}</div>
+                    </div>
+                </div>
+
+                <div class="key-improvements">
+                    <h4>🎯 Key Improvements</h4>
+                    <ul>
+                        ${tech.improvements.map(imp => `<li>${imp}</li>`).join('')}
+                    </ul>
+                </div>
+
+                <div class="metrics">
+                    ${Object.entries(tech.metrics).map(([label, value]) => `
+                        <div class="metric">
+                            <div class="metric-value">${value}</div>
+                            <div class="metric-label">${label.charAt(0).toUpperCase() + label.slice(1)}</div>
+                        </div>
+                    `).join('')}
+                </div>
+            `;
+
+            document.getElementById('demoArea').innerHTML = html;
+        }
+
+        function escapeHtml(text) {
+            const div = document.createElement('div');
+            div.textContent = text;
+            return div.innerHTML;
+        }
+
+        // Load initial technique
+        window.addEventListener('DOMContentLoaded', () => {
+            showTechnique('cot');
+        });
+    </script>
+</body>
+</html>
